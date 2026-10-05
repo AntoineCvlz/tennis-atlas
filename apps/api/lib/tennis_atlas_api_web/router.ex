@@ -7,6 +7,8 @@ defmodule TennisAtlasApiWeb.Router do
 
   scope "/api", TennisAtlasApiWeb do
     pipe_through :api
+
+    get "/health", HealthController, :index
   end
 
   # Enable LiveDashboard in development
