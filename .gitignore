@@ -1,2 +1,28 @@
+# Dependencies
+node_modules/
+apps/api/deps/
+apps/api/_build/
+
+# Build artifacts
+apps/web/.svelte-kit/
+apps/web/build/
+apps/api/priv/static/assets/
+
+# Environment
+.env
+
+# Elixir
+*.ez
+apps/api/erl_crash.dump
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Dev tooling scratch (git worktrees, subagent-driven-development workspaces)
 .worktrees/
 .superpowers/
