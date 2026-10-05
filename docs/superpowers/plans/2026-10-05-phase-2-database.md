@@ -1376,7 +1376,7 @@ git commit -m "feat: add Ranking schema"
 
 **Interfaces:**
 - Consumes: all schemas from Tasks 1-6 (`Venue`, `Court`, `Tournament`, `TournamentEdition`, `Player`, `TournamentEntry`, `Match`, `Set`, `Ranking`).
-- Produces: a populated dev database — 3 venues, 3 courts, 3 tournaments, 3 editions, 16 players, 48 tournament entries (16 players × 3 tournaments — see step 1 note on reuse), 21 matches (7 per tournament), ~54 sets, 16 ranking snapshots. Nothing downstream in this plan depends on this data programmatically; it's for manual verification (Task 8) and for Phase 4+ frontend work.
+- Produces: a populated dev database — 3 venues, 3 courts, 3 tournaments, 3 editions, 16 players, 24 tournament entries (8 players per bracket × 3 brackets — the 8 ATP players are reused across the Roland Garros and NY Open brackets, so entries aren't 16 × 3), 21 matches (7 per tournament), 49 sets, 16 ranking snapshots. Nothing downstream in this plan depends on this data programmatically; it's for manual verification (Task 8) and for Phase 4+ frontend work.
 
 - [ ] **Step 1: Replace `priv/repo/seeds.exs`**
 
@@ -1668,7 +1668,7 @@ docker compose run --rm api mix run -e '
 '
 ```
 
-Expected: `players: 16`, `matches: 21`, `entries: 48`, `sets: 49` (Roland Garros is best_of: 5 → 3 sets × 7 matches = 21; Wimbledon and the NY Open are best_of: 3 → 2 sets × 7 matches × 2 tournaments = 28; 21 + 28 = 49).
+Expected: `players: 16`, `matches: 21`, `entries: 24` (8 players per bracket × 3 brackets — the 8 ATP players are reused across Roland Garros and the NY Open, so this is not 16 × 3), `sets: 49` (Roland Garros is best_of: 5 → 3 sets × 7 matches = 21; Wimbledon and the NY Open are best_of: 3 → 2 sets × 7 matches × 2 tournaments = 28; 21 + 28 = 49).
 
 - [ ] **Step 4: Commit**
 
@@ -1691,7 +1691,7 @@ git commit -m "feat: add fictional seed dataset (3 tournaments, 16 players, 21 m
 - [ ] **Step 1: Run the full test suite**
 
 Run: `docker compose run --rm api mix test`
-Expected: all tests pass (Phase 1's health controller test + all Phase 2 schema tests — 33 tests total: 5 Venue/Court + 7 Tournament/Edition + 4 Player + 4 TournamentEntry + 7 Match/Set + 3 Ranking + 1 health + whatever Phase 1 already had), 0 failures, pristine output (no warnings).
+Expected: all tests pass — 31 tests total (1 health check from Phase 1 + 5 Venue/Court + 7 Tournament/TournamentEdition + 4 Player + 4 TournamentEntry + 7 Match/Set + 3 Ranking), 0 failures, pristine output (no warnings). If the actual total differs, treat it as a signal to recount rather than assume the suite is wrong — a miscounted total here already happened once during this plan's own pre-flight review.
 
 - [ ] **Step 2: Verify every migration is reversible**
 
