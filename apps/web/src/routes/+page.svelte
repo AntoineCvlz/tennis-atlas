@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { env } from '$env/dynamic/public';
+  import { PUBLIC_API_URL } from '$app/env/public';
 
   type HealthStatus = { status: string; database: string };
 
@@ -16,7 +16,7 @@
 
     async function attempt() {
       try {
-        const res = await fetch(`${env.PUBLIC_API_URL}/api/health`);
+        const res = await fetch(`${PUBLIC_API_URL}/api/health`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (cancelled) return;
