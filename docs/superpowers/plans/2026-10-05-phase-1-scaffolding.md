@@ -80,6 +80,10 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Dev tooling scratch (git worktrees, subagent-driven-development workspaces)
+.worktrees/
+.superpowers/
 ```
 
 - [ ] **Step 4: Create `.env.example`**
