@@ -20,6 +20,12 @@ cp .env.example .env
 docker compose up
 ```
 
+Pour charger des données de démonstration (fictives) :
+
+```bash
+docker compose run --rm api mix run priv/repo/seeds.exs
+```
+
 - API : http://localhost:4000 (health check : `/api/health`)
 - Web : http://localhost:5173
 
