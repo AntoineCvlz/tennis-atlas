@@ -15,5 +15,26 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: db
+    ports:
+      - "${API_PORT}:4000"
+    volumes:
+      - ./apps/api:/app
+      - api_deps:/app/deps
+      - api_build:/app/_build
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   postgres_data:
+  api_deps:
+  api_build:
