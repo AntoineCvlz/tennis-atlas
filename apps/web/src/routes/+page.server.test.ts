@@ -22,7 +22,7 @@ describe('load', () => {
 		const tournaments = [1, 2, 3, 4, 5].map(buildTournament);
 		vi.mocked(getTournaments).mockResolvedValue(tournaments);
 
-		const result = await load({} as unknown as Parameters<typeof load>[0]);
+		const result = (await load({} as unknown as Parameters<typeof load>[0])) as { tournaments: Tournament[]; apiError: boolean };
 
 		expect(result.tournaments).toHaveLength(3);
 		expect(result.tournaments).toEqual(tournaments.slice(0, 3));
@@ -32,7 +32,7 @@ describe('load', () => {
 	test('returns an empty list and apiError true when getTournaments rejects', async () => {
 		vi.mocked(getTournaments).mockRejectedValue(new Error('network down'));
 
-		const result = await load({} as unknown as Parameters<typeof load>[0]);
+		const result = (await load({} as unknown as Parameters<typeof load>[0])) as { tournaments: Tournament[]; apiError: boolean };
 
 		expect(result.tournaments).toEqual([]);
 		expect(result.apiError).toBe(true);
