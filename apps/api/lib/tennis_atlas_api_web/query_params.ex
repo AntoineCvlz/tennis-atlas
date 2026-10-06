@@ -23,7 +23,7 @@ defmodule TennisAtlasApiWeb.QueryParams do
     changeset =
       {data, all_types}
       |> Ecto.Changeset.cast(params, Map.keys(all_types))
-      |> validate_number(:page, greater_than: 0)
+      |> validate_number(:page, greater_than: 0, less_than: 1_000_000)
       |> validate_number(:page_size, greater_than: 0)
       |> validate_required(required)
 

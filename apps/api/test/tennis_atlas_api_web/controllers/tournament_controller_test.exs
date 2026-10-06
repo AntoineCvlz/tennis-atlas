@@ -30,6 +30,23 @@ defmodule TennisAtlasApiWeb.TournamentControllerTest do
 
       assert %{"errors" => %{"surface" => ["is invalid"]}} = json_response(conn, 422)
     end
+
+    test "paginates with a non-default page and page_size", %{conn: conn} do
+      tournament_fixture(%{name: "A Tournament"})
+      tournament_fixture(%{name: "B Tournament"})
+      tournament_fixture(%{name: "C Tournament"})
+
+      conn = get(conn, ~p"/api/tournaments?page=2&page_size=1")
+
+      assert %{"data" => [%{"name" => "B Tournament"}], "meta" => meta} = json_response(conn, 200)
+      assert meta == %{"page" => 2, "page_size" => 1, "total_count" => 3, "total_pages" => 3}
+    end
+
+    test "returns 422 for page=0", %{conn: conn} do
+      conn = get(conn, ~p"/api/tournaments?page=0")
+
+      assert %{"errors" => %{"page" => ["must be greater than 0"]}} = json_response(conn, 422)
+    end
   end
 
   describe "GET /api/tournaments/:slug" do

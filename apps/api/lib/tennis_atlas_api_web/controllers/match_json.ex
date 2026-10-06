@@ -34,7 +34,14 @@ defmodule TennisAtlasApiWeb.MatchJSON do
   end
 
   defp player_ref(nil), do: nil
-  defp player_ref(player), do: %{id: player.id, first_name: player.first_name, last_name: player.last_name, slug: player.slug}
+
+  defp player_ref(player),
+    do: %{
+      id: player.id,
+      first_name: player.first_name,
+      last_name: player.last_name,
+      slug: player.slug
+    }
 
   defp court_ref(nil), do: nil
   defp court_ref(court), do: %{id: court.id, name: court.name, surface: court.surface}
@@ -50,6 +57,12 @@ defmodule TennisAtlasApiWeb.MatchJSON do
   end
 
   defp set_ref(s) do
-    %{set_number: s.set_number, player_a_games: s.player_a_games, player_b_games: s.player_b_games, tiebreak_a: s.tiebreak_a, tiebreak_b: s.tiebreak_b}
+    %{
+      set_number: s.set_number,
+      player_a_games: s.player_a_games,
+      player_b_games: s.player_b_games,
+      tiebreak_a: s.tiebreak_a,
+      tiebreak_b: s.tiebreak_b
+    }
   end
 end

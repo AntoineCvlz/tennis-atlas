@@ -3,7 +3,9 @@ defmodule TennisAtlasApi.Repo.Migrations.CreateMatches do
 
   def change do
     create table(:matches) do
-      add :tournament_edition_id, references(:tournament_editions, on_delete: :delete_all), null: false
+      add :tournament_edition_id, references(:tournament_editions, on_delete: :delete_all),
+        null: false
+
       add :tour, :string, null: false
       add :round, :string, null: false
       add :player_a_id, references(:players, on_delete: :nilify_all)

@@ -156,9 +156,29 @@ new_york =
     longitude: -73.8458
   })
 
-court_paris = insert_court.(paris, %{name: "Court Central Fictif", surface: :clay, capacity: 15_000, indoor: false})
-court_london = insert_court.(london, %{name: "Court Central Fictif", surface: :grass, capacity: 15_000, indoor: false})
-court_ny = insert_court.(new_york, %{name: "Court Central Fictif", surface: :hard, capacity: 23_000, indoor: false})
+court_paris =
+  insert_court.(paris, %{
+    name: "Court Central Fictif",
+    surface: :clay,
+    capacity: 15_000,
+    indoor: false
+  })
+
+court_london =
+  insert_court.(london, %{
+    name: "Court Central Fictif",
+    surface: :grass,
+    capacity: 15_000,
+    indoor: false
+  })
+
+court_ny =
+  insert_court.(new_york, %{
+    name: "Court Central Fictif",
+    surface: :hard,
+    capacity: 23_000,
+    indoor: false
+  })
 
 # --- Tournaments & editions ---
 
@@ -189,9 +209,29 @@ ny_open =
     venue_id: new_york.id
   })
 
-rg_edition = insert_edition.(roland_garros, %{year: 2025, start_date: ~D[2025-05-25], end_date: ~D[2025-06-08], status: :completed})
-wimbledon_edition = insert_edition.(wimbledon, %{year: 2025, start_date: ~D[2025-06-30], end_date: ~D[2025-07-13], status: :completed})
-ny_edition = insert_edition.(ny_open, %{year: 2025, start_date: ~D[2025-02-10], end_date: ~D[2025-02-16], status: :completed})
+rg_edition =
+  insert_edition.(roland_garros, %{
+    year: 2025,
+    start_date: ~D[2025-05-25],
+    end_date: ~D[2025-06-08],
+    status: :completed
+  })
+
+wimbledon_edition =
+  insert_edition.(wimbledon, %{
+    year: 2025,
+    start_date: ~D[2025-06-30],
+    end_date: ~D[2025-07-13],
+    status: :completed
+  })
+
+ny_edition =
+  insert_edition.(ny_open, %{
+    year: 2025,
+    start_date: ~D[2025-02-10],
+    end_date: ~D[2025-02-16],
+    status: :completed
+  })
 
 # --- Players (fictional) ---
 

@@ -23,6 +23,12 @@ defmodule TennisAtlasApiWeb.PlayerControllerTest do
 
       assert %{"data" => [%{"first_name" => "Spanish"}]} = json_response(conn, 200)
     end
+
+    test "returns 422 for a page far beyond Postgres's integer range", %{conn: conn} do
+      conn = get(conn, ~p"/api/players?page=99999999999999999999")
+
+      assert %{"errors" => %{"page" => [_message]}} = json_response(conn, 422)
+    end
   end
 
   describe "GET /api/players/:slug" do

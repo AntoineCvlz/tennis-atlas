@@ -9,7 +9,12 @@ defmodule TennisAtlasApiWeb.RankingJSON do
       position: r.position,
       points: r.points,
       as_of_date: r.as_of_date,
-      player: %{id: r.player.id, first_name: r.player.first_name, last_name: r.player.last_name, slug: r.player.slug}
+      player: %{
+        id: r.player.id,
+        first_name: r.player.first_name,
+        last_name: r.player.last_name,
+        slug: r.player.slug
+      }
     }
   end
 end

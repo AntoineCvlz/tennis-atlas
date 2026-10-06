@@ -48,8 +48,20 @@ defmodule TennisAtlasApi.PlayersTest do
   describe "list_rankings/3" do
     test "returns only the latest snapshot per player for the given type" do
       player = player_fixture(%{})
-      ranking_fixture(%{player_id: player.id, ranking_type: :atp, as_of_date: ~D[2025-01-01], position: 5})
-      ranking_fixture(%{player_id: player.id, ranking_type: :atp, as_of_date: ~D[2025-09-01], position: 3})
+
+      ranking_fixture(%{
+        player_id: player.id,
+        ranking_type: :atp,
+        as_of_date: ~D[2025-01-01],
+        position: 5
+      })
+
+      ranking_fixture(%{
+        player_id: player.id,
+        ranking_type: :atp,
+        as_of_date: ~D[2025-09-01],
+        position: 3
+      })
 
       result = Players.list_rankings(%{ranking_type: :atp})
 
@@ -77,6 +89,29 @@ defmodule TennisAtlasApi.PlayersTest do
       result = Players.list_rankings(%{ranking_type: :atp})
 
       assert [%{position: 1}, %{position: 2}] = result.entries
+    end
+
+    test "excludes a same-as_of_date row for the other ranking type (not just a different player's row)" do
+      player = player_fixture(%{})
+      same_date = ~D[2025-09-01]
+
+      ranking_fixture(%{
+        player_id: player.id,
+        ranking_type: :atp,
+        as_of_date: same_date,
+        position: 1
+      })
+
+      ranking_fixture(%{
+        player_id: player.id,
+        ranking_type: :wta,
+        as_of_date: same_date,
+        position: 1
+      })
+
+      result = Players.list_rankings(%{ranking_type: :atp})
+
+      assert [%{ranking_type: :atp}] = result.entries
     end
   end
 end

@@ -6,7 +6,10 @@ defmodule TennisAtlasApi.MatchesFixtures do
 
   def match_fixture(attrs \\ %{}) do
     attrs = Map.new(attrs)
-    tournament_edition_id = Map.get_lazy(attrs, :tournament_edition_id, fn -> tournament_edition_fixture(%{}).id end)
+
+    tournament_edition_id =
+      Map.get_lazy(attrs, :tournament_edition_id, fn -> tournament_edition_fixture(%{}).id end)
+
     player_a_id = Map.get_lazy(attrs, :player_a_id, fn -> player_fixture(%{}).id end)
     player_b_id = Map.get_lazy(attrs, :player_b_id, fn -> player_fixture(%{}).id end)
 

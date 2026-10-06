@@ -19,7 +19,9 @@ defmodule TennisAtlasApiWeb.TournamentEditionMatchControllerTest do
       tournament_fixture(%{slug: "no-matches"})
 
       {404, _headers, body} =
-        assert_error_sent(404, fn -> get(conn, ~p"/api/tournaments/no-matches/editions/1999/matches") end)
+        assert_error_sent(404, fn ->
+          get(conn, ~p"/api/tournaments/no-matches/editions/1999/matches")
+        end)
 
       assert Jason.decode!(body) == %{"errors" => %{"detail" => "Not Found"}}
     end
@@ -34,6 +36,14 @@ defmodule TennisAtlasApiWeb.TournamentEditionMatchControllerTest do
 
       assert %{"data" => [match]} = json_response(conn, 200)
       assert match["tour"] == "atp"
+    end
+
+    test "returns 422 for a year far beyond Postgres's integer range", %{conn: conn} do
+      tournament_fixture(%{slug: "huge-year"})
+
+      conn = get(conn, ~p"/api/tournaments/huge-year/editions/99999999999999999999/matches")
+
+      assert %{"errors" => %{"year" => ["is invalid"]}} = json_response(conn, 422)
     end
   end
 end

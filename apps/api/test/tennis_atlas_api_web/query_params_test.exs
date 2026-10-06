@@ -8,7 +8,8 @@ defmodule TennisAtlasApiWeb.QueryParamsTest do
   end
 
   test "casts page and page_size from string params" do
-    assert {:ok, %{page: 2, page_size: 50}} = QueryParams.cast(%{"page" => "2", "page_size" => "50"})
+    assert {:ok, %{page: 2, page_size: 50}} =
+             QueryParams.cast(%{"page" => "2", "page_size" => "50"})
   end
 
   test "rejects page below 1" do
@@ -21,7 +22,9 @@ defmodule TennisAtlasApiWeb.QueryParamsTest do
   end
 
   test "casts extra typed fields and leaves them nil when absent" do
-    types = %{surface: Ecto.ParameterizedType.init(Ecto.Enum, values: [:clay, :grass, :hard, :indoor])}
+    types = %{
+      surface: Ecto.ParameterizedType.init(Ecto.Enum, values: [:clay, :grass, :hard, :indoor])
+    }
 
     assert {:ok, %{surface: nil}} = QueryParams.cast(%{}, types)
     assert {:ok, %{surface: :clay}} = QueryParams.cast(%{"surface" => "clay"}, types)

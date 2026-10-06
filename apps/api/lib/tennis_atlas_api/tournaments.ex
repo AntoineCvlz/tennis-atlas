@@ -11,7 +11,7 @@ defmodule TennisAtlasApi.Tournaments do
     |> apply_filter(:surface, filters[:surface])
     |> apply_filter(:category, filters[:category])
     |> preload(:venue)
-    |> order_by(asc: :name)
+    |> order_by(asc: :name, asc: :id)
     |> Pagination.paginate(Repo, page: page, page_size: page_size)
   end
 

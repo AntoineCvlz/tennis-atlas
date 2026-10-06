@@ -28,5 +28,11 @@ defmodule TennisAtlasApiWeb.MatchControllerTest do
 
       assert json_response(conn, 404) == %{"errors" => %{"detail" => "Not Found"}}
     end
+
+    test "returns 404 for an id beyond Postgres's bigint range instead of crashing", %{conn: conn} do
+      conn = get(conn, ~p"/api/matches/99999999999999999999")
+
+      assert json_response(conn, 404) == %{"errors" => %{"detail" => "Not Found"}}
+    end
   end
 end

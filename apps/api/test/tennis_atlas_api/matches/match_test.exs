@@ -29,7 +29,8 @@ defmodule TennisAtlasApi.Matches.MatchTest do
   test "changeset with valid attributes is valid" do
     edition = edition_fixture()
 
-    changeset = Match.changeset(%Match{}, %{tournament_edition_id: edition.id, tour: :atp, round: :f})
+    changeset =
+      Match.changeset(%Match{}, %{tournament_edition_id: edition.id, tour: :atp, round: :f})
 
     assert changeset.valid?
   end
@@ -60,7 +61,11 @@ defmodule TennisAtlasApi.Matches.MatchTest do
     edition = edition_fixture()
 
     changeset =
-      Match.changeset(%Match{}, %{tournament_edition_id: edition.id, tour: :atp, round: :round_of_64})
+      Match.changeset(%Match{}, %{
+        tournament_edition_id: edition.id,
+        tour: :atp,
+        round: :round_of_64
+      })
 
     refute changeset.valid?
     assert %{round: ["is invalid"]} = errors_on(changeset)
