@@ -12,6 +12,9 @@ defmodule TennisAtlasApiWeb.Router do
 
     get "/tournaments", TournamentController, :index
     get "/tournaments/:slug", TournamentController, :show
+
+    get "/players", PlayerController, :index
+    get "/players/:slug", PlayerController, :show
   end
 
   # Enable LiveDashboard in development
