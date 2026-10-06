@@ -44,4 +44,39 @@ defmodule TennisAtlasApi.PlayersTest do
       assert_raise Ecto.NoResultsError, fn -> Players.get_player_by_slug!("nope") end
     end
   end
+
+  describe "list_rankings/3" do
+    test "returns only the latest snapshot per player for the given type" do
+      player = player_fixture(%{})
+      ranking_fixture(%{player_id: player.id, ranking_type: :atp, as_of_date: ~D[2025-01-01], position: 5})
+      ranking_fixture(%{player_id: player.id, ranking_type: :atp, as_of_date: ~D[2025-09-01], position: 3})
+
+      result = Players.list_rankings(%{ranking_type: :atp})
+
+      assert [%{position: 3, as_of_date: ~D[2025-09-01]}] = result.entries
+    end
+
+    test "excludes the other ranking type" do
+      player_a = player_fixture(%{})
+      player_b = player_fixture(%{})
+      ranking_fixture(%{player_id: player_a.id, ranking_type: :atp, position: 1})
+      ranking_fixture(%{player_id: player_b.id, ranking_type: :wta, position: 1})
+
+      result = Players.list_rankings(%{ranking_type: :atp})
+
+      assert [%{player_id: player_id}] = result.entries
+      assert player_id == player_a.id
+    end
+
+    test "orders by position ascending" do
+      player_a = player_fixture(%{})
+      player_b = player_fixture(%{})
+      ranking_fixture(%{player_id: player_a.id, ranking_type: :atp, position: 2})
+      ranking_fixture(%{player_id: player_b.id, ranking_type: :atp, position: 1})
+
+      result = Players.list_rankings(%{ranking_type: :atp})
+
+      assert [%{position: 1}, %{position: 2}] = result.entries
+    end
+  end
 end
