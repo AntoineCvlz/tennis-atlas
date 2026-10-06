@@ -29,8 +29,6 @@ Décisions actées en discussion :
 
 ```
 apps/web/
-  tailwind.config.ts
-  postcss.config.js
   vitest.config.ts
   src/
     app.css                              (directives Tailwind, pas de CSS custom au-delà)
@@ -138,8 +136,10 @@ Une erreur réseau ou API ne fait jamais crasher la page vers l'écran d'erreur 
 
 ## 6. Design system (Tailwind)
 
-- `tailwind.config.ts` : palette neutre de base + une couleur d'accent, pas de tokens par surface (différé à la Phase 6, qui étendra cette config).
-- `app.css` : les trois directives Tailwind (`@tailwind base/components/utilities`), rien d'autre.
+Tailwind v4, intégration native via son plugin Vite (`@tailwindcss/vite`) — pas de `tailwind.config.ts`/`postcss.config.js` (obsolètes depuis la v4, qui configure tout en CSS).
+
+- `app.css` : `@import "tailwindcss";` puis un bloc `@theme` définissant une palette neutre de base + une couleur d'accent — pas de tokens par surface (différé à la Phase 6, qui étendra ce bloc).
+- `vite.config.ts` : ajout du plugin `tailwindcss()` (de `@tailwindcss/vite`) à côté de `sveltekit()`.
 - Composants stylés directement en classes utilitaires Tailwind dans le markup, pas de fichiers `.css` séparés par composant.
 
 ## 7. Tests (Vitest)
