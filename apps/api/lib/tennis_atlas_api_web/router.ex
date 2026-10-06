@@ -9,6 +9,9 @@ defmodule TennisAtlasApiWeb.Router do
     pipe_through :api
 
     get "/health", HealthController, :index
+
+    get "/tournaments", TournamentController, :index
+    get "/tournaments/:slug", TournamentController, :show
   end
 
   # Enable LiveDashboard in development

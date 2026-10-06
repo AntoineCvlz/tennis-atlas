@@ -26,7 +26,12 @@ defmodule TennisAtlasApi.TournamentsFixtures do
     attrs = Map.new(attrs)
     tournament_id = Map.get_lazy(attrs, :tournament_id, fn -> tournament_fixture(%{}).id end)
 
-    defaults = %{year: 2025, start_date: ~D[2025-01-01], end_date: ~D[2025-01-14], status: :completed}
+    defaults = %{
+      year: 2025,
+      start_date: ~D[2025-01-01],
+      end_date: ~D[2025-01-14],
+      status: :completed
+    }
 
     {:ok, edition} =
       defaults
