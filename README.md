@@ -27,6 +27,19 @@ docker compose run --rm api mix run priv/repo/seeds.exs
 ```
 
 - API : http://localhost:4000 (health check : `/api/health`)
+
+### Endpoints de l'API (Phase 3)
+
+Toutes les routes sont en lecture seule (`GET`), pagination `?page=&page_size=` (défaut 1/20, max 100) :
+
+- `GET /api/tournaments` — filtres : `surface`, `category`
+- `GET /api/tournaments/:slug`
+- `GET /api/tournaments/:slug/editions/:year/matches` — filtres : `tour`, `status`
+- `GET /api/players` — filtre : `country_code`
+- `GET /api/players/:slug`
+- `GET /api/matches/:id`
+- `GET /api/rankings` — filtre `ranking_type` **obligatoire**
+
 - Web : http://localhost:5173
 
 Le premier démarrage après un `docker compose up` propre peut prendre environ

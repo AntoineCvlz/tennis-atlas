@@ -9,7 +9,8 @@ config :tennis_atlas_api, TennisAtlasApi.Repo,
   username: System.get_env("POSTGRES_USER", "postgres"),
   password: System.get_env("POSTGRES_PASSWORD", "postgres"),
   hostname: System.get_env("POSTGRES_HOST", "localhost"),
-  database: "#{System.get_env("POSTGRES_DB", "tennis_atlas_api")}_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database:
+    "#{System.get_env("POSTGRES_DB", "tennis_atlas_api")}_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 

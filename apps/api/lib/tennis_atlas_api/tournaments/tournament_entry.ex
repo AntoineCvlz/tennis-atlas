@@ -5,7 +5,11 @@ defmodule TennisAtlasApi.Tournaments.TournamentEntry do
   schema "tournament_entries" do
     field :tour, Ecto.Enum, values: [:atp, :wta]
     field :seed, :integer
-    field :entry_type, Ecto.Enum, values: [:direct, :qualifier, :wildcard, :lucky_loser], default: :direct
+
+    field :entry_type, Ecto.Enum,
+      values: [:direct, :qualifier, :wildcard, :lucky_loser],
+      default: :direct
+
     field :status, Ecto.Enum, values: [:active, :withdrawn], default: :active
 
     belongs_to :tournament_edition, TennisAtlasApi.Tournaments.TournamentEdition

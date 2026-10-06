@@ -67,7 +67,9 @@ defmodule TennisAtlasApi.Tournaments.TournamentEditionTest do
     }
 
     {:ok, _edition} = TournamentEdition.changeset(%TournamentEdition{}, attrs) |> Repo.insert()
-    {:error, changeset} = TournamentEdition.changeset(%TournamentEdition{}, attrs) |> Repo.insert()
+
+    {:error, changeset} =
+      TournamentEdition.changeset(%TournamentEdition{}, attrs) |> Repo.insert()
 
     assert %{tournament_id: ["has already been taken"]} = errors_on(changeset)
   end

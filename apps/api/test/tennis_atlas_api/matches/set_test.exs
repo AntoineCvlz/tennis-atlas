@@ -35,7 +35,12 @@ defmodule TennisAtlasApi.Matches.SetTest do
     match = match_fixture()
 
     changeset =
-      Set.changeset(%Set{}, %{match_id: match.id, set_number: 1, player_a_games: 6, player_b_games: 4})
+      Set.changeset(%Set{}, %{
+        match_id: match.id,
+        set_number: 1,
+        player_a_games: 6,
+        player_b_games: 4
+      })
 
     assert changeset.valid?
   end
