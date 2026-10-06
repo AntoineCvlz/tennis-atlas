@@ -44,8 +44,10 @@ Toutes les routes sont en lecture seule (`GET`), pagination `?page=&page_size=` 
 
 Le premier démarrage après un `docker compose up` propre peut prendre environ
 une minute : l'API compile ~30 dépendances et exécute les migrations depuis
-zéro. La page web réessaie automatiquement la connexion à l'API pendant ce
-temps, inutile de la rafraîchir manuellement.
+zéro. Si la page affiche « Les tournois ne sont pas disponibles pour le
+moment » pendant ce temps, rafraîchissez la page une fois l'API prête — la
+page d'accueil récupère les données côté serveur à chaque requête, sans
+réessai automatique.
 
 Si un port est déjà utilisé sur votre machine (5432, 4000 ou 5173), modifiez
 la variable `*_PORT` correspondante dans `.env`.
