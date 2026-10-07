@@ -31,10 +31,10 @@ describe('apiFetch', () => {
 			vi.fn().mockResolvedValue({ ok: false, status: 404, json: () => Promise.resolve({}) })
 		);
 
-		const thrown = await apiFetch('/api/tournaments/unknown').catch((e) => e);
+		const thrown: unknown = await apiFetch('/api/tournaments/unknown').catch((e) => e);
 
 		expect(thrown).toBeInstanceOf(ApiError);
-		expect(thrown.status).toBe(404);
+		expect((thrown as ApiError).status).toBe(404);
 	});
 
 	test('propagates a network error unchanged', async () => {
