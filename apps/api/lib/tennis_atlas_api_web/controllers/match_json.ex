@@ -22,14 +22,14 @@ defmodule TennisAtlasApiWeb.MatchJSON do
       winner_id: m.winner_id,
       player_a: player_ref(m.player_a),
       player_b: player_ref(m.player_b),
-      court: court_ref(m.court)
+      court: court_ref(m.court),
+      sets: for(s <- m.sets, do: set_ref(s))
     }
   end
 
   defp detail(%Match{} = m) do
     Map.merge(summary(m), %{
-      tournament: tournament_ref(m.tournament_edition),
-      sets: for(s <- m.sets, do: set_ref(s))
+      tournament: tournament_ref(m.tournament_edition)
     })
   end
 

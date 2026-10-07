@@ -5,14 +5,16 @@ defmodule TennisAtlasApiWeb.TournamentEditionMatchControllerTest do
   import TennisAtlasApi.MatchesFixtures
 
   describe "GET /api/tournaments/:slug/editions/:year/matches" do
-    test "lists matches for the edition", %{conn: conn} do
+    test "lists matches for the edition, including each match's sets", %{conn: conn} do
       tournament = tournament_fixture(%{slug: "with-matches"})
       edition = tournament_edition_fixture(%{tournament_id: tournament.id, year: 2025})
-      match_fixture(%{tournament_edition_id: edition.id})
+      match = match_fixture(%{tournament_edition_id: edition.id})
+      set_fixture(%{match_id: match.id, set_number: 1, player_a_games: 6, player_b_games: 4})
 
       conn = get(conn, ~p"/api/tournaments/with-matches/editions/2025/matches")
 
-      assert %{"data" => [_match]} = json_response(conn, 200)
+      assert %{"data" => [match_json]} = json_response(conn, 200)
+      assert [%{"set_number" => 1, "player_a_games" => 6, "player_b_games" => 4}] = match_json["sets"]
     end
 
     test "returns 404 for an unknown tournament/year combination", %{conn: conn} do
