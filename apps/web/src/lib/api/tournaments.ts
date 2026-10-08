@@ -23,13 +23,15 @@ export async function listTournaments(params: {
 }
 
 export async function getTournament(slug: string): Promise<TournamentDetail> {
-	const { data } = await apiFetch<{ data: TournamentDetail }>(`/api/tournaments/${slug}`);
+	const { data } = await apiFetch<{ data: TournamentDetail }>(
+		`/api/tournaments/${encodeURIComponent(slug)}`
+	);
 	return data;
 }
 
 export async function getMatchesForEdition(slug: string, year: number): Promise<Match[]> {
 	const { data } = await apiFetch<{ data: Match[] }>(
-		`/api/tournaments/${slug}/editions/${year}/matches?page_size=100`
+		`/api/tournaments/${encodeURIComponent(slug)}/editions/${year}/matches?page_size=100`
 	);
 	return data;
 }

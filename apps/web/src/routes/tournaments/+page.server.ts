@@ -1,11 +1,11 @@
 import { listTournaments } from '#lib/api/tournaments';
+import { parseSurface, parseCategory, parsePage } from '#lib/filters';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
-	const surface = url.searchParams.get('surface') ?? undefined;
-	const category = url.searchParams.get('category') ?? undefined;
-	const pageParam = url.searchParams.get('page');
-	const page = pageParam ? Number(pageParam) : undefined;
+	const surface = parseSurface(url.searchParams.get('surface'));
+	const category = parseCategory(url.searchParams.get('category'));
+	const page = parsePage(url.searchParams.get('page'));
 
 	const { tournaments, meta } = await listTournaments({ surface, category, page });
 

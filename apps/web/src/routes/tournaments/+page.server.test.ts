@@ -53,4 +53,46 @@ describe('load', () => {
 			filters: { surface: 'hard', category: undefined }
 		});
 	});
+
+	test('drops an unrecognized surface instead of forwarding it to the API', async () => {
+		const meta = { page: 1, page_size: 20, total_count: 0, total_pages: 0 };
+		vi.mocked(listTournaments).mockResolvedValue({ tournaments: [], meta });
+
+		await load(buildEvent('?surface=carpet'));
+
+		expect(listTournaments).toHaveBeenCalledWith({
+			surface: undefined,
+			category: undefined,
+			page: undefined
+		});
+	});
+
+	test('drops an unrecognized category instead of forwarding it to the API', async () => {
+		const meta = { page: 1, page_size: 20, total_count: 0, total_pages: 0 };
+		vi.mocked(listTournaments).mockResolvedValue({ tournaments: [], meta });
+
+		await load(buildEvent('?category=atp_1000'));
+
+		expect(listTournaments).toHaveBeenCalledWith({
+			surface: undefined,
+			category: undefined,
+			page: undefined
+		});
+	});
+
+	test.each(['-1', '0', '2.5', 'abc', '1000000'])(
+		'drops an out-of-domain page value (%s) instead of forwarding it to the API',
+		async (page) => {
+			const meta = { page: 1, page_size: 20, total_count: 0, total_pages: 0 };
+			vi.mocked(listTournaments).mockResolvedValue({ tournaments: [], meta });
+
+			await load(buildEvent(`?page=${page}`));
+
+			expect(listTournaments).toHaveBeenCalledWith({
+				surface: undefined,
+				category: undefined,
+				page: undefined
+			});
+		}
+	);
 });

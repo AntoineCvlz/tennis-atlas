@@ -26,4 +26,12 @@ describe('getPlayer', () => {
 		expect(apiFetch).toHaveBeenCalledWith('/api/players/mateo-rivera');
 		expect(result).toEqual(player);
 	});
+
+	test('URL-encodes the slug so it cannot escape the path segment', async () => {
+		vi.mocked(apiFetch).mockResolvedValue({ data: {} });
+
+		await getPlayer('a/../b');
+
+		expect(apiFetch).toHaveBeenCalledWith('/api/players/a%2F..%2Fb');
+	});
 });

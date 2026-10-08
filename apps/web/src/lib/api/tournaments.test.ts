@@ -73,6 +73,14 @@ describe('getTournament', () => {
 		expect(apiFetch).toHaveBeenCalledWith('/api/tournaments/a');
 		expect(result).toEqual(tournament);
 	});
+
+	test('URL-encodes the slug so it cannot escape the path segment', async () => {
+		vi.mocked(apiFetch).mockResolvedValue({ data: {} });
+
+		await getTournament('a/../b');
+
+		expect(apiFetch).toHaveBeenCalledWith('/api/tournaments/a%2F..%2Fb');
+	});
 });
 
 describe('getMatchesForEdition', () => {
@@ -83,5 +91,15 @@ describe('getMatchesForEdition', () => {
 
 		expect(apiFetch).toHaveBeenCalledWith('/api/tournaments/a/editions/2025/matches?page_size=100');
 		expect(result).toEqual([]);
+	});
+
+	test('URL-encodes the slug so it cannot escape the path segment', async () => {
+		vi.mocked(apiFetch).mockResolvedValue({ data: [] });
+
+		await getMatchesForEdition('a/../b', 2025);
+
+		expect(apiFetch).toHaveBeenCalledWith(
+			'/api/tournaments/a%2F..%2Fb/editions/2025/matches?page_size=100'
+		);
 	});
 });
