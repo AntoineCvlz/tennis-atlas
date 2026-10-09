@@ -34,7 +34,7 @@ defmodule TennisAtlasApi.Tournaments do
     |> where([m], m.tournament_edition_id == ^edition_id)
     |> apply_filter(:tour, filters[:tour])
     |> apply_filter(:status, filters[:status])
-    |> preload([:player_a, :player_b, :court])
+    |> preload([:player_a, :player_b, :court, :sets])
     |> order_by(asc: :id)
     |> Pagination.paginate(Repo, page: page, page_size: page_size)
   end

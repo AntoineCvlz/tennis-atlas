@@ -100,5 +100,15 @@ defmodule TennisAtlasApi.TournamentsTest do
 
       assert [%{tour: :atp}] = result.entries
     end
+
+    test "preloads sets" do
+      edition = tournament_edition_fixture(%{})
+      match = match_fixture(%{tournament_edition_id: edition.id})
+      set_fixture(%{match_id: match.id, set_number: 1, player_a_games: 6, player_b_games: 4})
+
+      result = Tournaments.list_matches_for_edition(edition.id)
+
+      assert [%{sets: [%{set_number: 1, player_a_games: 6, player_b_games: 4}]}] = result.entries
+    end
   end
 end

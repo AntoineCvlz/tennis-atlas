@@ -25,13 +25,16 @@ describe('apiFetch', () => {
 		expect(fetch).toHaveBeenCalledWith('http://api:4000/api/tournaments');
 	});
 
-	test('throws ApiError on a non-ok response', async () => {
+	test('throws ApiError carrying the response status on a non-ok response', async () => {
 		vi.stubGlobal(
 			'fetch',
-			vi.fn().mockResolvedValue({ ok: false, status: 500, json: () => Promise.resolve({}) })
+			vi.fn().mockResolvedValue({ ok: false, status: 404, json: () => Promise.resolve({}) })
 		);
 
-		await expect(apiFetch('/api/tournaments')).rejects.toThrow(ApiError);
+		const thrown: unknown = await apiFetch('/api/tournaments/unknown').catch((e) => e);
+
+		expect(thrown).toBeInstanceOf(ApiError);
+		expect((thrown as ApiError).status).toBe(404);
 	});
 
 	test('propagates a network error unchanged', async () => {
